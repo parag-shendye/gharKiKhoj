@@ -1,0 +1,20 @@
+{
+  "name": "scraper-backend",
+  "version": "1.0.0",
+  "description": "small scraper for scraping housing data",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js"
+  },
+  "keywords": [
+    "scraper",
+    "pupeteer"
+  ],
+  "author": "parag shendye",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.43.4",
+    "dotenv": "^16.4.5",
+    "puppeteer": "^22.11.0"
+  }
+}
