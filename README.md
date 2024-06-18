@@ -1,4 +1,4 @@
-# GharKiKhoj Project
+# GharKiKhoj
 
 ![Flutter](https://img.shields.io/badge/Flutter-v2.0-blue)
 ![Supabase](https://img.shields.io/badge/Supabase-Postgres-green)
@@ -16,7 +16,6 @@ GharKiKhoj is a comprehensive project that scrapes data from a house searching w
 - [Setup](#setup)
 - [Usage](#usage)
 - [Screenshots](#screenshots)
-- [Contributing](#contributing)
 - [License](#license)
 
 ## Features
@@ -85,6 +84,11 @@ npm start <city>
     ```bash
     flutter run
     ```
+
+
+### Screenshots
+![screencapture](main_screen.png) 
+
 
 ### License
 
