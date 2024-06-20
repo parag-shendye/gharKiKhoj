@@ -1,4 +1,8 @@
 # GharKiKhoj
+<p align="center">
+  <img src="gharkikhoj/assets/images/house_icon.png" width=100vw height=100vh />
+</p>
+
 
 ![Flutter](https://img.shields.io/badge/Flutter-v2.0-blue)
 ![Supabase](https://img.shields.io/badge/Supabase-Postgres-green)
