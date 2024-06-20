@@ -25,7 +25,11 @@ const updateData = async (entry) => {
     price: parseCost(entry["price"]),
     floor_area: parseFeature(entry["features"][0]),
     rooms: parseFeature(entry["features"][1]),
-    furnished: entry["features"][2]
+    furnished: entry["features"][2],
+    href: entry["href"],
+    duration: entry["Duration"],
+    available: entry["Available"],
+    energy: entry["Energy rating"]
   })
   .select();
 
@@ -36,18 +40,22 @@ const updateData = async (entry) => {
 const getData = async (city) => {
   let browser;
   try {
+
       browser = await puppeteer.launch();
+
       const page = await browser.newPage();
 
-      const url = `${api}/${city}`;
-      console.log(url);
+      const url = `${api}/apartments/${city}`;
       await page.goto(url, { waitUntil: 'networkidle2' });
 
       await page.waitForSelector('.listing-search-item__link--title', { timeout: 10000 });
 
       const listings = await page.evaluate(() => {
+
+
           const items = Array.from(document.querySelectorAll('.listing-search-item__link--title')).map(titleElement => {
               const item = titleElement.closest('.listing-search-item');
+              const hrefE = titleElement.getAttribute('href');
               const subtitleElement = item.querySelector('.listing-search-item__sub-title\\\'');
               const priceElement = item.querySelector('.listing-search-item__price');
               const featuresElement = item.querySelector('.illustrated-features');
@@ -56,6 +64,7 @@ const getData = async (city) => {
 
               return {
                   title: titleElement ? titleElement.textContent.trim() : '',
+                  href: `${document.URL}${hrefE}`,
                   subtitle: subtitleElement ? subtitleElement.textContent.trim() : '',
                   price: priceElement ? priceElement.textContent.trim() : '',
                   features: features
@@ -64,7 +73,32 @@ const getData = async (city) => {
 
           return items;
       });
-
+      for (let listing of listings) {
+        await page.goto(listing.href, { waitUntil: 'domcontentloaded' });
+    
+        const data = await page.evaluate(() => {
+          const features = document.querySelectorAll('.listing-features__list dt');
+          const values = document.querySelectorAll('.listing-features__list dd .listing-features__main-description');
+          
+          const featureMap = {};
+          
+          features.forEach((feature, index) => {
+            const featureName = feature.textContent.trim();
+            const value = values[index].textContent.trim();
+            if (["Duration", "Energy rating", "Available"].includes(featureName)) {
+              featureMap[featureName] = value;
+              // listing[featureName] = value;
+            }
+          });
+      
+          return featureMap;
+        });
+        
+      for (const [key, value] of Object.entries(data)) {
+        listing[key] = value;
+      }
+        // console.log(data);
+      }
       return listings;
 
   } catch (error) {
@@ -84,8 +118,7 @@ const getData = async (city) => {
       for (let index = 0; index < listings.length; index++) {
         var element = listings[index];
         element["city"] = city;
-        const {d,e} = await updateData(element);
-        console.log(e); 
+        await updateData(element);
       }
       console.log('Extracted Listings:', listings);
   } catch (error) {
