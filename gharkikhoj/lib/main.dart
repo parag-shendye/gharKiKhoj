@@ -65,7 +65,10 @@ class _MyHomePageState extends State<MyHomePage> {
           furnished: row['furnished'] ?? '',
           price: row['price'],
           city: row['city'] as String,
-          builtYear: row['built_year'] ?? -1);
+          builtYear: row['built_year'] ?? -1,
+          href: row['href'] ?? '',
+          duration: row['duration'],
+          energy: row['energy']);
       apartments.add(apt);
     }
     return apartments;
@@ -147,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
             width: 50,
             height: 50,
           ),
-          SizedBox(
+          const SizedBox(
             width: 20,
           ),
           Text(widget.title)

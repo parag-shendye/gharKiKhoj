@@ -10,6 +10,11 @@ class Apartments {
   String furnished;
   String city;
   int builtYear;
+  String href;
+  String? available;
+  String? duration;
+  String? energy;
+
   bool? applied;
 
   Apartments(
@@ -21,5 +26,9 @@ class Apartments {
       required this.furnished,
       required this.city,
       required this.builtYear,
+      required this.href,
+      this.available,
+      this.duration,
+      this.energy,
       this.applied});
 }
